@@ -11,9 +11,18 @@ BuildMenu()
 
 RunOCR() {
     global ocrPID
+
     if ocrPID && ProcessExist(ocrPID)
         return
-    Run('pythonw "' A_ScriptDir '\ocr.py"', A_ScriptDir, , &ocrPID)
+
+    ocrPath := A_ScriptDir "\ocr.exe"
+
+    if !FileExist(ocrPath) {
+        MsgBox("Cannot find: " ocrPath, "OCR Tool Error")
+        return
+    }
+
+    Run('"' ocrPath '"', A_ScriptDir, , &ocrPID)
 }
 
 ; ─── Hotkey Management ───────────────────────────────
@@ -29,14 +38,12 @@ ReadHotkeyFromSettings() {
 }
 
 ConvertHotkey(human) {
-    ; "ctrl+shift+p" → "^+p"
     human := StrLower(Trim(human))
     parts := StrSplit(human, "+")
     if parts.Length < 2
         return "^+p"
 
     result := ""
-    lastPart := parts[parts.Length]
 
     for i, part in parts {
         part := Trim(part)
@@ -52,12 +59,11 @@ ConvertHotkey(human) {
             result .= "#"
     }
 
-    result .= lastPart
+    result .= parts[parts.Length]
     return result
 }
 
 HumanHotkey(human) {
-    ; "ctrl+shift+p" → "Ctrl+Shift+P" (display format)
     parts := StrSplit(human, "+")
     result := ""
     for i, part in parts {
@@ -83,23 +89,12 @@ RegisterHotkey() {
         Hotkey(ahkKey, (*) => RunOCR())
         currentHotkey := ahkKey
     } catch {
-        ; Fallback
         Hotkey("^+p", (*) => RunOCR())
         currentHotkey := "^+p"
     }
 }
 
 ; ─── Model Switching ─────────────────────────────────
-
-GetActiveModel() {
-    path := A_ScriptDir "\settings.json"
-    if !FileExist(path)
-        return ""
-    content := FileRead(path)
-    if RegExMatch(content, '"active_model"\s*:\s*"([^"]+)"', &m)
-        return m[1]
-    return ""
-}
 
 SetActiveModel(id, *) {
     path := A_ScriptDir "\settings.json"
@@ -113,6 +108,32 @@ SetActiveModel(id, *) {
     TrayTip("Model: " id, "OCR Tool")
 }
 
+; ─── Autostart ───────────────────────────────────────
+
+HasAutostart() {
+    return FileExist(A_Startup "\OCR Tool.lnk")
+}
+
+ToggleAutostart() {
+    shortcutPath := A_Startup "\OCR Tool.lnk"
+    exePath := A_ScriptDir "\hotkey.exe"
+
+    if FileExist(shortcutPath) {
+        FileDelete(shortcutPath)
+        TrayTip("Autostart disabled", "OCR Tool")
+    } else {
+        ComObj := ComObject("WScript.Shell")
+        Shortcut := ComObj.CreateShortcut(shortcutPath)
+        Shortcut.TargetPath := exePath
+        Shortcut.WorkingDirectory := A_ScriptDir
+        Shortcut.Description := "OCR Tool"
+        Shortcut.Save()
+        TrayTip("Autostart enabled", "OCR Tool")
+    }
+
+    BuildMenu()
+}
+
 ; ─── Build Tray Menu ─────────────────────────────────
 
 BuildMenu() {
@@ -124,7 +145,6 @@ BuildMenu() {
     A_TrayMenu.Add("Scan Region`t" displayHK, (*) => RunOCR())
     A_TrayMenu.Add()
 
-    ; Models submenu
     if FileExist(path) {
         content := FileRead(path)
 
@@ -168,12 +188,14 @@ BuildMenu() {
 
     A_TrayMenu.Add()
     A_TrayMenu.Add("Settings", (*) => OpenSettings())
+    A_TrayMenu.Add("Start with Windows", (*) => ToggleAutostart())
+    if HasAutostart()
+        A_TrayMenu.Check("Start with Windows")
     A_TrayMenu.Add()
     A_TrayMenu.Add("Exit", (*) => ExitApp())
 }
 
 OpenSettings() {
     Run('notepad "' A_ScriptDir '\settings.json"')
-    ; Re-read hotkey after settings close
     SetTimer(() => (RegisterHotkey(), BuildMenu()), -3000)
 }

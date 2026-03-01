@@ -141,6 +141,8 @@ def resolve_path(path_str):
     return p if p.is_absolute() else SCRIPT_DIR / p
 
 
+
+
 # ─── CLI Helpers (for AHK) ──────────────────────────────────
 
 def cli_list_models():
@@ -157,7 +159,6 @@ def cli_set_model(model_id):
     if model_id in settings.get("models", {}):
         settings["active_model"] = model_id
         save_settings(settings)
-
 
 # ─── Download / Setup ───────────────────────────────────────
 
