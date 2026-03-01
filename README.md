@@ -5,11 +5,11 @@ Select any region on your screen, and the tool will use AI (like GLM-OCR or Smol
 
 ## Features
 
-- ** Local AI Powered:** Uses advanced Vision models (GLM-OCR & SmolVLM) for highly accurate text extraction, even on complex backgrounds or messy formatting.
-- ** Auto-Setup:** Automatically downloads the required `llama.cpp` (Vulkan GPU-accelerated) binaries and AI models on the first run.
-- ** Global Hotkeys & Tray Icon:** Managed by AutoHotkey v2 for minimal resource usage. Trigger OCR from anywhere, switch models on the fly.
-- ** Visual Feedback:** Features a floating "Status Pill" and Windows notifications so you know exactly when the text is ready to paste.
-- ** Image Preprocessing:** Optional image upscaling, sharpening, and contrast enhancement to help the AI read tiny or blurry text.
+- **Local AI Powered:** Uses advanced Vision models (GLM-OCR & SmolVLM) for highly accurate text extraction, even on complex backgrounds or messy formatting.
+- **Auto-Setup:** Automatically downloads the required `llama.cpp` (Vulkan GPU-accelerated) binaries and AI models on the first run.
+- **Global Hotkeys & Tray Icon:** Managed by AutoHotkey v2 for minimal resource usage. Trigger OCR from anywhere, switch models on the fly.
+- **Visual Feedback:** Features a floating "Status Pill" and Windows notifications so you know exactly when the text is ready to paste.
+- **Image Preprocessing:** Optional image upscaling, sharpening, and contrast enhancement to help the AI read tiny or blurry text.
 
 ## Prerequisites
 
