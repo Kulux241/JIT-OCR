@@ -1,0 +1,9 @@
+llama/
+models/
+ocr_debug.log
+__pycache__/
+*.pyc
+dist/
+build/
+ocr.spec
+settings.json
