@@ -15,14 +15,25 @@ RunOCR() {
     if ocrPID && ProcessExist(ocrPID)
         return
 
-    ocrPath := A_ScriptDir "\ocr.exe"
+    ; Define both paths
+    ocrExePath := A_ScriptDir "\ocr.exe"
+    ocrPyPath  := A_ScriptDir "\ocr.py"
 
-    if !FileExist(ocrPath) {
-        MsgBox("Cannot find: " ocrPath, "OCR Tool Error")
+    ; Check for the .exe first
+    if FileExist(ocrExePath) {
+        Run('"' ocrExePath '"', A_ScriptDir, , &ocrPID)
+    } 
+    ; If .exe is not found, check for the .py file
+    else if FileExist(ocrPyPath) {
+        ; Note: It is usually best to specify 'python' or 'py' before the script path 
+        ; so Windows doesn't accidentally just open the .py file in a text editor.
+        Run('pythonw "' ocrPyPath '"', A_ScriptDir, , &ocrPID)
+    } 
+    ; If neither exists, show the error
+    else {
+        MsgBox("Cannot find ocr.exe or ocr.py in: " A_ScriptDir, "OCR Tool Error")
         return
     }
-
-    Run('"' ocrPath '"', A_ScriptDir, , &ocrPID)
 }
 
 ; ─── Hotkey Management ───────────────────────────────
