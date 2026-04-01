@@ -78,15 +78,15 @@ DEFAULT_SETTINGS = {
         "glm-ocr": {
             "name": "GLM-OCR (Accurate)",
             "model_path": "models/GLM-OCR.-Q4_K_M.gguf",
-            "mmproj_path": "models/GLM-OCR.mmproj-Q4_K_M.gguf",
+            "mmproj_path": "models/mmproj-GLM-OCR-Q8_0.gguf",
             "model_url": "https://huggingface.co/nopesadly/GLM-OCR-Q4_K_M.gguf/resolve/main/GLM-OCR.-Q4_K_M.gguf",
-            "mmproj_url": "https://huggingface.co/nopesadly/GLM-OCR-Q4_K_M.gguf/resolve/main/GLM-OCR.mmproj-Q4_K_M.gguf",
+            "mmproj_url": "https://huggingface.co/nopesadly/GLM-OCR-Q4_K_M.gguf/resolve/main/mmproj-GLM-OCR-Q8_0.gguf",
             "prompt": "<image>\nExtract only the exact text from this image. Output the text exactly as written, with no extra words.",
             "extra_args": [
                 "--chat-template", "vicuna",
                 "--top-k", "1",
                 "--repeat-penalty", "1.0",
-                "-c", "1024",
+                "-c", "4096",
             ],
         },
         "smolvlm": {
