@@ -18,7 +18,9 @@ Runs entirely offline using llama.cpp vision models. No API keys, no cloud, no B
 3. Text gets extracted and copied to clipboard
 4. Done
 
-## First Run
+## First Run/Installation
+
+Run ocr.exe once and then the hotkey should work.
 
 Everything downloads automatically on first launch:
 - llama.cpp (Vulkan)
