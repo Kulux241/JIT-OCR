@@ -30,18 +30,17 @@ jobs:
       # --- Step 2: Download Ahk2Exe and AutoHotkey v2.0.19 Base ---
       - name: Download Ahk2Exe
         run: |
-          curl -L -o Ahk2Exe.zip https://github.com/AutoHotkey/Ahk2Exe/releases/latest/download/Ahk2Exe.zip
-          Expand-Archive Ahk2Exe.zip -DestinationPath Ahk2Exe
+          curl -L -o Ahk2Exe.exe https://github.com/AutoHotkey/Ahk2Exe/releases/latest/download/Ahk2Exe.exe
 
       - name: Download AutoHotkey v2.0.19 U64 Base Interpreter
         run: |
           curl -L -o AutoHotkey.zip https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.19/AutoHotkey_2.0.19.zip
           Expand-Archive AutoHotkey.zip -DestinationPath AutoHotkey
 
-      # --- Step 3: Compile AHK Script to EXE (Renamed) ---
+      # --- Step 3: Compile AHK Script to EXE ---
       - name: Compile ocr.ahk to ocr-hotkey.exe
         run: |
-          .\Ahk2Exe\Ahk2Exe.exe /in ocr.ahk /out ocr-hotkey.exe /base ".\AutoHotkey\AutoHotkey64.exe" /compress 0
+          .\Ahk2Exe.exe /in ocr.ahk /out ocr-hotkey.exe /base ".\AutoHotkey\AutoHotkey64.exe" /compress 0
 
       # --- Step 4: Prepare Release Package ---
       - name: Create release folder structure
