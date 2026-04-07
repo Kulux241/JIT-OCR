@@ -73,7 +73,7 @@ def show_debug_popup(title, msg):
 
 DEFAULT_SETTINGS = {
     "hotkey": "ctrl+shift+p",
-    "active_model": "glm-ocr",
+    "active_model": "paddleocr-vl-1.5",
     "models": {
         "glm-ocr": {
             "name": "GLM-OCR (Accurate)",
@@ -88,6 +88,15 @@ DEFAULT_SETTINGS = {
                 "--repeat-penalty", "1.0",
                 "-c", "4096",
             ],
+        },
+        "paddleocr-vl-1.5": {
+            "name": "PaddleOCR-VL-1.5 (Robust)",
+            "model_path": "models/PaddleOCR-VL-1.5-Q8_0.gguf",
+            "mmproj_path": "models/mmproj-F16.gguf",
+            "model_url": "https://huggingface.co/noctrex/PaddleOCR-VL-1.5-GGUF/resolve/main/PaddleOCR-VL-1.5-Q8_0.gguf",
+            "mmproj_url": "https://huggingface.co/noctrex/PaddleOCR-VL-1.5-GGUF/resolve/main/mmproj-F16.gguf",
+            "prompt": "OCR:",
+            "extra_args": ["--jinja", "-c", "4096", "--temp", "0"],
         },
         "smolvlm": {
             "name": "SmolVLM 500M (Fast)",
@@ -129,7 +138,7 @@ def save_settings(settings):
 
 
 def get_active_model(settings):
-    active_id = settings.get("active_model", "glm-ocr")
+    active_id = settings.get("active_model", "paddleocr-vl-1.5")
     models = settings.get("models", {})
     if active_id not in models:
         active_id = next(iter(models))
