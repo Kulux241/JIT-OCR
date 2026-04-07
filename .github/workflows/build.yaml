@@ -27,10 +27,10 @@ jobs:
         run: |
           pyinstaller --onefile --windowed --name ocr ocr.py
 
-         # --- Step 2: Download Ahk2Exe and AutoHotkey v2.0.19 Base ---
-      - name: Download Ahk2Exe (specific version)
+      # --- Step 2: Download Ahk2Exe and AutoHotkey v2.0.19 Base ---
+      - name: Download Ahk2Exe (latest v1.1.37.02a2)
         run: |
-          curl -L -o Ahk2Exe.zip https://github.com/AutoHotkey/Ahk2Exe/releases/download/v1.1.37.02a0/Ahk2Exe_v1.1.37.02a0.zip
+          curl -L -o Ahk2Exe.zip https://github.com/AutoHotkey/Ahk2Exe/releases/download/Ahk2Exe1.1.37.02a2/Ahk2Exe1.1.37.02a2.zip
           Expand-Archive Ahk2Exe.zip -DestinationPath Ahk2Exe
 
       - name: Download AutoHotkey v2.0.19 U64 Base Interpreter
