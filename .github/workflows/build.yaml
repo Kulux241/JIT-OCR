@@ -1,0 +1,72 @@
+name: Build JIT-OCR Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # --- Step 1: Build Python OCR Engine ---
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'           # ← Changed to 3.12 per your request
+
+      - name: Install Python dependencies
+        run: pip install pyinstaller pillow
+
+      - name: Build ocr.exe with PyInstaller
+        run: |
+          pyinstaller --onefile --windowed --name ocr ocr.py
+
+      # --- Step 2: Download Ahk2Exe and AutoHotkey v2.0.19 Base ---
+      - name: Download Ahk2Exe
+        run: |
+          curl -L -o Ahk2Exe.zip https://github.com/AutoHotkey/Ahk2Exe/releases/latest/download/Ahk2Exe.zip
+          Expand-Archive Ahk2Exe.zip -DestinationPath Ahk2Exe
+
+      - name: Download AutoHotkey v2.0.19 U64 Base Interpreter
+        run: |
+          curl -L -o AutoHotkey.zip https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.19/AutoHotkey_2.0.19.zip
+          Expand-Archive AutoHotkey.zip -DestinationPath AutoHotkey
+
+      # --- Step 3: Compile AHK Script to EXE (Renamed) ---
+      - name: Compile ocr.ahk to ocr-hotkey.exe
+        run: |
+          .\Ahk2Exe\Ahk2Exe.exe /in ocr.ahk /out ocr-hotkey.exe /base ".\AutoHotkey\AutoHotkey64.exe" /compress 0
+
+      # --- Step 4: Prepare Release Package ---
+      - name: Create release folder structure
+        run: |
+          mkdir JIT-OCR
+          copy dist\ocr.exe JIT-OCR\
+          copy ocr-hotkey.exe JIT-OCR\
+          copy settings.json JIT-OCR\
+          mkdir JIT-OCR\models
+          mkdir JIT-OCR\llama
+
+      - name: Create ZIP archive
+        run: Compress-Archive -Path JIT-OCR\* -DestinationPath JIT-OCR.zip
+
+      # --- Step 5: Upload to GitHub Release ---
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: JIT-OCR.zip
+          body: |
+            # JIT-OCR Release
+
+            **First run will automatically download required models and llama.cpp.**
+
+            - Run `ocr-hotkey.exe` to start the tray icon.
+            - Default hotkey: `Ctrl+Shift+P`
+
+            Built with AutoHotkey v2.0.19 and PyInstaller.
