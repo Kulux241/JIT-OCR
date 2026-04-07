@@ -27,15 +27,15 @@ jobs:
         run: |
           pyinstaller --onefile --windowed --name ocr ocr.py
 
-      # --- Step 2: Download Ahk2Exe and AutoHotkey v2.0.19 Base ---
+      # --- Step 2: Download Ahk2Exe and AutoHotkey v2.0.23 Base ---
       - name: Download Ahk2Exe (latest v1.1.37.02a2)
         run: |
           curl -L -o Ahk2Exe.zip https://github.com/AutoHotkey/Ahk2Exe/releases/download/Ahk2Exe1.1.37.02a2/Ahk2Exe1.1.37.02a2.zip
           Expand-Archive Ahk2Exe.zip -DestinationPath Ahk2Exe
 
-      - name: Download AutoHotkey v2.0.19 U64 Base Interpreter
+      - name: Download AutoHotkey v2.0.23 U64 Base Interpreter
         run: |
-          curl -L -o AutoHotkey.zip https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.19/AutoHotkey_2.0.19.zip
+          curl -L -o AutoHotkey.zip https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.23/AutoHotkey_2.0.23.zip
           Expand-Archive AutoHotkey.zip -DestinationPath AutoHotkey
 
       # --- Step 3: Compile AHK Script to EXE ---
@@ -49,9 +49,6 @@ jobs:
           mkdir JIT-OCR
           copy dist\ocr.exe JIT-OCR\
           copy ocr-hotkey.exe JIT-OCR\
-          copy settings.json JIT-OCR\
-          mkdir JIT-OCR\models
-          mkdir JIT-OCR\llama
 
       - name: Create ZIP archive
         run: Compress-Archive -Path JIT-OCR\* -DestinationPath JIT-OCR.zip
