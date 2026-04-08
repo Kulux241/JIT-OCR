@@ -33,6 +33,7 @@ Just run it and wait.
 | Model | Speed | Accuracy | VRAM |
 |---|---|---|---|
 | GLM-OCR | Moderate | High | ~1.5GB |
+| PaddleOCR | Moderate | High | ~1.5GB |
 | SmolVLM 500M | Fast | Good enough | ~1GB |
 
 Switch models from the system tray icon.
