@@ -73,7 +73,7 @@ def show_debug_popup(title, msg):
 
 DEFAULT_SETTINGS = {
     "hotkey": "ctrl+shift+p",
-    "active_model": "paddleocr-vl-1.5",
+    "active_model": "paddleocr-vl-1.6",
     "models": {
         "glm-ocr": {
             "name": "GLM-OCR (Accurate)",
@@ -89,12 +89,12 @@ DEFAULT_SETTINGS = {
                 "-c", "4096",
             ],
         },
-        "paddleocr-vl-1.5": {
-            "name": "PaddleOCR-VL-1.5 (Robust)",
-            "model_path": "models/PaddleOCR-VL-1.5-Q8_0.gguf",
-            "mmproj_path": "models/mmproj-F16.gguf",
-            "model_url": "https://huggingface.co/noctrex/PaddleOCR-VL-1.5-GGUF/resolve/main/PaddleOCR-VL-1.5-Q8_0.gguf",
-            "mmproj_url": "https://huggingface.co/noctrex/PaddleOCR-VL-1.5-GGUF/resolve/main/mmproj-F16.gguf",
+        "paddleocr-vl-1.6": {
+            "name": "PaddleOCR-VL-1.6 (Robust)",
+            "model_path": "models/PaddleOCR-VL-1.6.Q8_0.gguf",
+            "mmproj_path": "models/PaddleOCR-VL-1.6-GGUF-mmproj.gguf",
+            "model_url": "https://huggingface.co/mradermacher/PaddleOCR-VL-1.6-GGUF/resolve/main/PaddleOCR-VL-1.6.Q8_0.gguf",
+            "mmproj_url": "https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6-GGUF/resolve/main/PaddleOCR-VL-1.6-GGUF-mmproj.gguf",
             "prompt": "OCR:",
             "extra_args": ["--jinja", "-c", "4096", "--temp", "0"],
         },
